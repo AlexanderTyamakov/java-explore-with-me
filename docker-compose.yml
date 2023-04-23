@@ -31,9 +31,31 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
 
-#  ewm-service:
-#    ports:
-#      - "8080:8080"
+  ewm-service:
+    build:
+      context: ./main-service/ewm-service
+      dockerfile: Dockerfile
+    image: ewm-service-image
+    container_name: ewm-service-container
+    ports:
+      - "8080:8080"
+    depends_on:
+      -   ewm-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
+      - SPRING_DATASOURCE_USER=root
+      - SPRING_DATASOURCE_PASSWORD=root
 
-#  ewm-db:
-#    image: postgres:14-alpine
+  ewm-db:
+    image: postgres:14-alpine
+    container_name: ewm-db-container
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6542:5432"
+    environment:
+      - TZ=Europe/Moscow
+      - POSTGRES_DB=ewm
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
