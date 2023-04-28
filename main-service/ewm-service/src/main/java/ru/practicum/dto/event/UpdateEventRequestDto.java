@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class UpdateEventRequest {
+public abstract class UpdateEventRequestDto {
 
     @Length(min = 20, max = 2000)
     @NotBlankNull
@@ -40,7 +40,7 @@ public abstract class UpdateEventRequest {
 
     @Override
     public String toString() {
-        return "UpdateEventUserRequest{" +
+        return "UpdateEventUserRequestDto{" +
                 "annotation='" + annotation + '\'' +
                 ", category=" + category +
                 ", description='" + description + '\'' +

@@ -3,7 +3,7 @@ package ru.practicum.dto.mapper;
 import lombok.experimental.UtilityClass;
 import ru.practicum.dto.Compilation.CompilationDto;
 import ru.practicum.dto.Compilation.NewCompilationDto;
-import ru.practicum.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.dto.Compilation.UpdateCompilationRequestDto;
 import ru.practicum.model.Compilation;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public final class CompilationMapper {
                 .build();
     }
 
-    public static Compilation toEntity(UpdateCompilationRequest dto) {
+    public static Compilation toEntity(UpdateCompilationRequestDto dto) {
         return Compilation.builder()
                 .pinned(dto.getPinned())
                 .title(dto.getTitle())

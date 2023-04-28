@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.EventFullDto;
-import ru.practicum.dto.event.UpdateEventAdminRequest;
-import ru.practicum.dto.request.RequestParamAdminForEvent;
+import ru.practicum.dto.event.UpdateEventAdminRequestDto;
+import ru.practicum.dto.request.RequestParamAdminForEventDto;
 import ru.practicum.enums.State;
 import ru.practicum.services.adminServices.AdminEventsService;
 
@@ -46,7 +46,7 @@ public class AdminEventsController {
             statesEnum = states.stream().map(State::from).filter(Objects::nonNull).collect(Collectors.toList());
         }
 
-        RequestParamAdminForEvent param = RequestParamAdminForEvent.builder()
+        RequestParamAdminForEventDto param = RequestParamAdminForEventDto.builder()
                 .users(users)
                 .states(statesEnum)
                 .categories(categories)
@@ -60,7 +60,7 @@ public class AdminEventsController {
 
     @PatchMapping("/{eventId}")
     public ResponseEntity<EventFullDto> update(@PathVariable Long eventId,
-                                               @RequestBody UpdateEventAdminRequest updateEvent) {
+                                               @RequestBody UpdateEventAdminRequestDto updateEvent) {
         log.info("Получен запрос PATCH /admin/events/{} на изменение события.", eventId);
         return new ResponseEntity<>(service.update(eventId, updateEvent), HttpStatus.OK);
     }

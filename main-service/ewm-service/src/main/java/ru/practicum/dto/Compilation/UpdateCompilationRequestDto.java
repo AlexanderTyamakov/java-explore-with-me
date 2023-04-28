@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateCompilationRequest {
+public class UpdateCompilationRequestDto {
     private Set<Long> events;
     private Boolean pinned;
     @NotBlankNull

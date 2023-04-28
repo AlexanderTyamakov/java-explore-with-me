@@ -28,7 +28,6 @@ public class Compilation {
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

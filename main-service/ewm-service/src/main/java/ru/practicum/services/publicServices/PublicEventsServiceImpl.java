@@ -11,14 +11,14 @@ import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.dto.event.EventShortDto;
 import ru.practicum.dto.mapper.EventMapper;
-import ru.practicum.dto.request.RequestParamPublicForEvent;
+import ru.practicum.dto.request.RequestParamPublicForEventDto;
 import ru.practicum.enums.State;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Event;
 import ru.practicum.model.EventSearchCriteria;
 import ru.practicum.repository.EventRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -39,8 +39,8 @@ public class PublicEventsServiceImpl implements PublicEventsService {
 
     @Transactional
     @Override
-    public Set<EventShortDto> getAll(RequestParamPublicForEvent param) {
-        MyPageRequest pageable = createPageable(param.getSort(), param.getFrom(), param.getSize());
+    public Set<EventShortDto> getAll(RequestParamPublicForEventDto param) {
+        Pagination pageable = createPageable(param.getSort(), param.getFrom(), param.getSize());
         EventSearchCriteria eventSearchCriteria = createCriteria(param);
 
         Set<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository
@@ -79,19 +79,19 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         statsClient.post(endpointHit);
     }
 
-    private MyPageRequest createPageable(String sort, int from, int size) {
-        MyPageRequest pageable = null;
+    private Pagination createPageable(String sort, int from, int size) {
+        Pagination pageable = null;
         if (sort == null || sort.equalsIgnoreCase("EVENT_DATE")) {
-            pageable = new MyPageRequest(from, size,
+            pageable = new Pagination(from, size,
                     Sort.by(Sort.Direction.ASC, "event_date"));
         } else if (sort.equalsIgnoreCase("VIEWS")) {
-            pageable = new MyPageRequest(from, size,
+            pageable = new Pagination(from, size,
                     Sort.by(Sort.Direction.ASC, "views"));
         }
         return pageable;
     }
 
-    private EventSearchCriteria createCriteria(RequestParamPublicForEvent param) {
+    private EventSearchCriteria createCriteria(RequestParamPublicForEventDto param) {
         return EventSearchCriteria.builder()
                 .text(param.getText())
                 .categories(param.getCategories())

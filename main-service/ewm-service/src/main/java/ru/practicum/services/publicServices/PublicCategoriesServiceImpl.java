@@ -10,7 +10,7 @@ import ru.practicum.dto.mapper.CategoryMapper;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Category;
 import ru.practicum.repository.CategoriesRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 
 import java.util.List;
 
@@ -24,10 +24,10 @@ public class PublicCategoriesServiceImpl implements PublicCategoriesService {
 
     @Override
     public List<CategoryDto> getAll(int from, int size) {
-        MyPageRequest pageable = new MyPageRequest(from, size,
+        Pagination pageable = new Pagination(from, size,
                 Sort.by(Sort.Direction.ASC, "id"));
         List<Category> categories = categoriesRepository.findAll(pageable).toList();
-        log.info("Получен список всех категорий");
+        log.info("List of categories received");
         return CategoryMapper.toDtoList(categories);
     }
 

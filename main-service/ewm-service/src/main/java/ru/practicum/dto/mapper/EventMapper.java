@@ -29,7 +29,7 @@ public final class EventMapper {
                 .build();
     }
 
-    public static Event toEntity(UpdateEventAdminRequest dto) {
+    public static Event toEntity(UpdateEventAdminRequestDto dto) {
         return Event.builder()
                 .annotation(dto.getAnnotation())
                 .createdOn(LocalDateTime.now())
@@ -44,7 +44,7 @@ public final class EventMapper {
                 .build();
     }
 
-    public static Event toEntity(UpdateEventUserRequest dto) {
+    public static Event toEntity(UpdateEventUserRequestDtoDto dto) {
         return Event.builder()
                 .annotation(dto.getAnnotation())
                 .description(dto.getDescription())

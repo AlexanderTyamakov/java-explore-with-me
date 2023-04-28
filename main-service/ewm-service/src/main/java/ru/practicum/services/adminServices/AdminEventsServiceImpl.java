@@ -7,18 +7,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.event.EventFullDto;
-import ru.practicum.dto.event.UpdateEventAdminRequest;
+import ru.practicum.dto.event.UpdateEventAdminRequestDto;
 import ru.practicum.dto.mapper.EventMapper;
-import ru.practicum.dto.request.RequestParamAdminForEvent;
+import ru.practicum.dto.request.RequestParamAdminForEventDto;
 import ru.practicum.enums.AdminStateAction;
 import ru.practicum.enums.State;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Event;
 import ru.practicum.repository.EventRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 import ru.practicum.utils.UtilMergeProperty;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +33,7 @@ public class AdminEventsServiceImpl implements AdminEventsService {
 
     @Transactional
     @Override
-    public EventFullDto update(Long eventId, UpdateEventAdminRequest dto) {
+    public EventFullDto update(Long eventId, UpdateEventAdminRequestDto dto) {
         if (dto.getEventDate() != null) {
             checkEventDate(dto.getEventDate());
         }
@@ -67,8 +66,8 @@ public class AdminEventsServiceImpl implements AdminEventsService {
     }
 
     @Override
-    public List<EventFullDto> getAll(RequestParamAdminForEvent param) {
-        MyPageRequest pageable = new MyPageRequest(param.getFrom(), param.getSize(),
+    public List<EventFullDto> getAll(RequestParamAdminForEventDto param) {
+        Pagination pageable = new Pagination(param.getFrom(), param.getSize(),
                 Sort.by(Sort.Direction.ASC, "id"));
         List<Event> events = eventRepository.findEventsByParams(
                 param.getUsers(), param.getStates(), param.getCategories(), param.getRangeStart(),

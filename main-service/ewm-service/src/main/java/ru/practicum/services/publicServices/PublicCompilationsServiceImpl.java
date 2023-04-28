@@ -10,7 +10,7 @@ import ru.practicum.dto.mapper.CompilationMapper;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Compilation;
 import ru.practicum.repository.CompilationRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class PublicCompilationsServiceImpl implements PublicCompilationsService 
 
     @Override
     public List<CompilationDto> getAll(Boolean pinned, int from, int size) {
-        MyPageRequest pageable = new MyPageRequest(from, size,
+        Pagination pageable = new Pagination(from, size,
                 Sort.by(Sort.Direction.ASC, "id"));
         List<Compilation> compilations;
         if (pinned != null) {

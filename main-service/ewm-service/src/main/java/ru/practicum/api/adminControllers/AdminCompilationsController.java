@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.Compilation.CompilationDto;
 import ru.practicum.dto.Compilation.NewCompilationDto;
-import ru.practicum.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.dto.Compilation.UpdateCompilationRequestDto;
 import ru.practicum.services.adminServices.AdminCompilationService;
 
 
@@ -37,8 +37,8 @@ public class AdminCompilationsController {
 
     @PatchMapping("/{compId}")
     public ResponseEntity<CompilationDto> update(@PathVariable Long compId,
-                                                 @RequestBody @Valid UpdateCompilationRequest updateCompilationRequest) {
+                                                 @RequestBody @Valid UpdateCompilationRequestDto updateCompilationRequestDto) {
         log.info("Получен запрос PATCH /admin/compilations/{} на изменение подборки.", compId);
-        return new ResponseEntity<>(service.update(compId, updateCompilationRequest), HttpStatus.OK);
+        return new ResponseEntity<>(service.update(compId, updateCompilationRequestDto), HttpStatus.OK);
     }
 }

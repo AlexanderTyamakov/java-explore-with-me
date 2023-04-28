@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.dto.event.EventShortDto;
-import ru.practicum.dto.request.RequestParamPublicForEvent;
+import ru.practicum.dto.request.RequestParamPublicForEventDto;
 import ru.practicum.services.publicServices.PublicEventsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +45,7 @@ public class PublicCategoriesController {
         log.info("Получен запрос GET /events c параметрами: text = {}, categories = {}, paid = {}, rangeStart = {}, " +
                         "rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}", text, categories, paid,
                 rangeStart, rangeEnd, onlyAvailable, sort, from, size);
-        RequestParamPublicForEvent param = RequestParamPublicForEvent.builder()
+        RequestParamPublicForEventDto param = RequestParamPublicForEventDto.builder()
                 .text(text)
                 .categories(categories)
                 .paid(paid)

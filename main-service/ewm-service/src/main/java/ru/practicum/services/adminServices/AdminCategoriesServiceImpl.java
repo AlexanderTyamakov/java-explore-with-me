@@ -45,7 +45,7 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     public void delete(Long catId) {
         if (eventRepository.existsByCategory(get(catId))) {
             throw new ConditionsNotMetException("The category is not empty");
-        } else  {
+        } else {
             log.info("Deleted category with id = {}", catId);
             categoriesRepository.deleteById(catId);
         }

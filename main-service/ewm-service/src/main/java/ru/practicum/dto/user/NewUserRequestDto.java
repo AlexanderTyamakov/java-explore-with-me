@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewUserRequest {
+public class NewUserRequestDto {
     @NotBlank
     @Size(max = 128)
     private String name;

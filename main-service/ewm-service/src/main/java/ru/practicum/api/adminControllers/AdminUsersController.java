@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.user.NewUserRequest;
+import ru.practicum.dto.user.NewUserRequestDto;
 import ru.practicum.dto.user.UserDto;
 import ru.practicum.services.adminServices.AdminUserService;
 
@@ -36,9 +36,9 @@ public class AdminUsersController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> save(@RequestBody @Valid NewUserRequest newUserRequest) {
-        log.info("Получен запрос POST /admin/users c новым пользователем: {}", newUserRequest.getEmail());
-        return new ResponseEntity<>(service.save(newUserRequest), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> save(@RequestBody @Valid NewUserRequestDto newUserRequestDto) {
+        log.info("Получен запрос POST /admin/users c новым пользователем: {}", newUserRequestDto.getEmail());
+        return new ResponseEntity<>(service.save(newUserRequestDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{userId}")

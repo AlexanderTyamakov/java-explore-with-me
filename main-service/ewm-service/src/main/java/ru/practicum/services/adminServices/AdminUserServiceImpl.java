@@ -7,12 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.mapper.UserMapper;
-import ru.practicum.dto.user.NewUserRequest;
+import ru.practicum.dto.user.NewUserRequestDto;
 import ru.practicum.dto.user.UserDto;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.model.User;
 import ru.practicum.repository.UserRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public List<UserDto> getAll(List<Long> ids, Integer from, Integer size) {
         List<User> users;
-        MyPageRequest pageable = new MyPageRequest(from, size, Sort.by(Sort.Direction.ASC, "id"));
+        Pagination pageable = new Pagination(from, size, Sort.by(Sort.Direction.ASC, "id"));
         if (ids == null) {
             users = userRepository.findAll(pageable).toList();
         } else {
@@ -39,12 +39,12 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Transactional
     @Override
-    public UserDto save(NewUserRequest dto) {
+    public UserDto save(NewUserRequestDto dto) {
         User user = UserMapper.toEntity(dto);
         try {
             user = userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            throw new ConflictException("Данный email уже занят", e);
+            throw new ConflictException("Provided email is occupied", e);
         }
         log.info("Add user: {}", user.getEmail());
         return UserMapper.toUserDto(user);

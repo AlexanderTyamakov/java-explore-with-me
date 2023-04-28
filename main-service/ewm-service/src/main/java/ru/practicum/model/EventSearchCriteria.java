@@ -18,5 +18,4 @@ public class EventSearchCriteria {
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
     private Boolean onlyAvailable;
-
 }

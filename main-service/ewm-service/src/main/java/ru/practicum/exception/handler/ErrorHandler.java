@@ -62,7 +62,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleonstraintViolationException(final ConstraintViolationException e) {
+    public ApiError handleConstraintViolationException(final ConstraintViolationException e) {
         log.error(e.getLocalizedMessage(), e.getMessage());
 
         return new ApiError(

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.Compilation.CompilationDto;
 import ru.practicum.dto.Compilation.NewCompilationDto;
-import ru.practicum.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.dto.Compilation.UpdateCompilationRequestDto;
 import ru.practicum.dto.mapper.CompilationMapper;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
@@ -16,7 +16,6 @@ import ru.practicum.model.Compilation;
 import ru.practicum.model.Event;
 import ru.practicum.repository.CompilationRepository;
 import ru.practicum.repository.EventRepository;
-
 
 import java.util.Set;
 
@@ -54,7 +53,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
     @Transactional
     @Override
-    public CompilationDto update(Long compId, UpdateCompilationRequest dto) {
+    public CompilationDto update(Long compId, UpdateCompilationRequestDto dto) {
         Compilation compilationTarget = compilationRepository.findById(compId)
                 .orElseThrow(() -> new NotFoundException(String.format("Compilation not found with id = %s", compId)));
 

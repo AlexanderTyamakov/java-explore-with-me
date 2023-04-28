@@ -1,7 +1,6 @@
 package ru.practicum.services.privareServices;
 
 
-
 import ru.practicum.dto.event.*;
 import ru.practicum.dto.request.ParticipationRequestDto;
 
@@ -17,7 +16,7 @@ public interface PrivateEventsService {
 
     EventFullDto create(Long userId, NewEventDto eventDto);
 
-    EventFullDto update(Long userId, Long eventId, UpdateEventUserRequest eventDto);
+    EventFullDto update(Long userId, Long eventId, UpdateEventUserRequestDtoDto eventDto);
 
-    EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request);
+    EventRequestStatusUpdateResultDto updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequestDto request);
 }

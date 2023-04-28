@@ -20,9 +20,8 @@ import ru.practicum.repository.CategoriesRepository;
 import ru.practicum.repository.EventRepository;
 import ru.practicum.repository.RequestRepository;
 import ru.practicum.repository.UserRepository;
-import ru.practicum.utils.MyPageRequest;
+import ru.practicum.utils.Pagination;
 import ru.practicum.utils.UtilMergeProperty;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,7 +48,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
     @Override
     public Set<EventShortDto> getAll(Long userId, Integer from, Integer size) {
-        MyPageRequest pageRequest = new MyPageRequest(from, size,
+        Pagination pageRequest = new Pagination(from, size,
                 Sort.by(Sort.Direction.ASC, "id"));
         Set<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository.findAll(pageRequest).toSet());
         log.info("Get events list size: {}", eventShorts.size());
@@ -98,7 +97,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
     @Transactional
     @Override
-    public EventFullDto update(Long userId, Long eventId, UpdateEventUserRequest eventDto) {
+    public EventFullDto update(Long userId, Long eventId, UpdateEventUserRequestDtoDto eventDto) {
         Event eventTarget = eventRepository.findByIdAndInitiatorId(eventId, userId)
                 .orElseThrow(() -> new NotFoundException(
                         String.format("Event not found with id = %s and userId = %s", eventId, userId)));
@@ -130,7 +129,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
     @Transactional
     @Override
-    public EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request) {
+    public EventRequestStatusUpdateResultDto updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequestDto request) {
         List<ParticipationRequestDto> confirmedRequests = List.of();
         List<ParticipationRequestDto> rejectedRequests = List.of();
 
@@ -150,7 +149,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
                         .peek(r -> r.setStatus(REJECTED))
                         .map(RequestMapper::toParticipationRequestDto)
                         .collect(Collectors.toList());
-                return new EventRequestStatusUpdateResult(confirmedRequests, rejectedRequests);
+                return new EventRequestStatusUpdateResultDto(confirmedRequests, rejectedRequests);
             }
         }
 
@@ -207,7 +206,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         }
         eventRepository.flush();
         requestRepository.flush();
-        return new EventRequestStatusUpdateResult(confirmedRequests, rejectedRequests);
+        return new EventRequestStatusUpdateResultDto(confirmedRequests, rejectedRequests);
     }
 
 

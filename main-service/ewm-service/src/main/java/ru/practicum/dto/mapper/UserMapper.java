@@ -1,7 +1,7 @@
 package ru.practicum.dto.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.dto.user.NewUserRequest;
+import ru.practicum.dto.user.NewUserRequestDto;
 import ru.practicum.dto.user.UserDto;
 import ru.practicum.dto.user.UserShortDto;
 import ru.practicum.model.User;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @UtilityClass
 public final class UserMapper {
 
-    public static User toEntity(NewUserRequest dto) {
+    public static User toEntity(NewUserRequestDto dto) {
         return User.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())
