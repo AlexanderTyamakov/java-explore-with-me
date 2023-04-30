@@ -1,5 +1,6 @@
 package ru.practicum;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class Client {
 
     private final WebClient webClient;
 
-    public Client(String host) {
+    public Client( @Value("${stats-service.url}") String host) {
+
         this.webClient = WebClient.create(host);
     }
 

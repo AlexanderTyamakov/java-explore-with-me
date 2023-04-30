@@ -11,6 +11,7 @@ import ru.practicum.dto.mapper.EventMapper;
 import ru.practicum.dto.mapper.RequestMapper;
 import ru.practicum.dto.request.ParticipationRequestDto;
 import ru.practicum.enums.State;
+import ru.practicum.enums.Status;
 import ru.practicum.enums.UserStateAction;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
@@ -136,21 +137,19 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         List<Long> requestIds = request.getRequestIds();
         List<Request> requests = requestRepository.findAllByIdIn(requestIds);
 
-        String status = request.getStatus();
+        Status status = request.getStatus();
 
-        if (status.equals(REJECTED.toString())) {
-            if (status.equals(REJECTED.toString())) {
-                boolean isConfirmedRequestExists = requests.stream()
-                        .anyMatch(r -> r.getStatus().equals(CONFIRMED));
-                if (isConfirmedRequestExists) {
-                    throw new ConflictException("Cannot reject confirmed requests");
-                }
-                rejectedRequests = requests.stream()
-                        .peek(r -> r.setStatus(REJECTED))
-                        .map(RequestMapper::toParticipationRequestDto)
-                        .collect(Collectors.toList());
-                return new EventRequestStatusUpdateResultDto(confirmedRequests, rejectedRequests);
+        if (status.equals(REJECTED)) {
+            boolean isConfirmedRequestExists = requests.stream()
+                    .anyMatch(r -> r.getStatus().equals(CONFIRMED));
+            if (isConfirmedRequestExists) {
+                throw new ConflictException("Cannot reject confirmed requests");
             }
+            rejectedRequests = requests.stream()
+                    .peek(r -> r.setStatus(REJECTED))
+                    .map(RequestMapper::toParticipationRequestDto)
+                    .collect(Collectors.toList());
+            return new EventRequestStatusUpdateResultDto(confirmedRequests, rejectedRequests);
         }
 
         Event event = eventRepository.findByIdAndInitiatorId(eventId, userId)
@@ -165,7 +164,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
             throw new ConflictException(String.format("Event with id=%d has reached participant limit", eventId));
         }
 
-        if (status.equals(CONFIRMED.toString())) {
+        if (status.equals(CONFIRMED)) {
             if (participantLimit.equals(0L) || (potentialParticipants <= availableParticipants && !event.getRequestModeration())) {
                 confirmedRequests = requests.stream()
                         .peek(r -> {

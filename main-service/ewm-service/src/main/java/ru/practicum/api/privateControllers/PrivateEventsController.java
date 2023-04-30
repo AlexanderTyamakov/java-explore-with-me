@@ -6,13 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.*;
 import ru.practicum.dto.request.ParticipationRequestDto;
-import ru.practicum.enums.Status;
-import ru.practicum.exception.ConflictException;
 import ru.practicum.services.privareServices.PrivateEventsService;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -66,12 +64,9 @@ public class PrivateEventsController {
     @PatchMapping("/{eventId}/requests")
     public ResponseEntity<EventRequestStatusUpdateResultDto> updateRequestStatus(@PathVariable Long userId,
                                                                                  @PathVariable Long eventId,
-                                                                                 @RequestBody EventRequestStatusUpdateRequestDto request) {
+                                                                                 @Validated @RequestBody EventRequestStatusUpdateRequestDto request) {
         log.info("Получен запрос PATCH /users/{}/events/{eventId}/requests" +
                 " на обновление статуса события id = {}: {}", userId, eventId, request);
-        if (Status.from(request.getStatus()) == null) {
-            throw new ConflictException("Status is not validate");
-        }
         return new ResponseEntity<>(service.updateRequestStatus(userId, eventId, request), HttpStatus.OK);
     }
 
