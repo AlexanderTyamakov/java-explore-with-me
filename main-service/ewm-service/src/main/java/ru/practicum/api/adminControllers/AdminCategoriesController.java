@@ -6,10 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.Category.CategoryDto;
-import ru.practicum.dto.Category.NewCategoryDto;
+import ru.practicum.dto.category.CategoryDto;
+import ru.practicum.dto.category.NewCategoryDto;
 import ru.practicum.services.adminServices.AdminCategoriesService;
-
 
 import javax.validation.Valid;
 

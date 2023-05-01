@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.dto.Compilation.CompilationDto;
+import ru.practicum.dto.compilation.CompilationDto;
 import ru.practicum.dto.mapper.CompilationMapper;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.model.Compilation;

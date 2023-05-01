@@ -1,6 +1,6 @@
 package ru.practicum.services.publicServices;
 
-import ru.practicum.dto.Compilation.CompilationDto;
+import ru.practicum.dto.compilation.CompilationDto;
 
 import java.util.List;
 
