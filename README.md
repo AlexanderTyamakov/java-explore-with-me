@@ -1,6 +1,6 @@
 ### Ссылка на Pull Request:
 ```bash
-git clone https://github.com/AlexanderTyamakov/java-explore-with-me.git
+https://github.com/AlexanderTyamakov/java-explore-with-me/pull/6
 ```
 
 ### Установка

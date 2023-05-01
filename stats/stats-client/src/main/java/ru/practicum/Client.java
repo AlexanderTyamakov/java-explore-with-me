@@ -17,7 +17,7 @@ public class Client {
 
     private final WebClient webClient;
 
-    public Client( @Value("${stats-service.url}") String host) {
+    public Client(@Value("${stats-service.url}") String host) {
 
         this.webClient = WebClient.create(host);
     }
