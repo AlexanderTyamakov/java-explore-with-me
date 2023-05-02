@@ -220,9 +220,6 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
                 .orElseThrow(() -> new NotFoundException(String.format("User not found with id = %s", userId)));
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NotFoundException(String.format("Event not found with id = %s", eventId)));
-        if (!event.getState().equals(State.PUBLISHED)) {
-            throw new ConflictException(String.format("Event with id=%d is not published", eventId));
-        }
         Comment comment = CommentMapper.toComment(commentDto, user, event);
         return CommentMapper.toCommentResponseDto(commentRepository.save(comment));
     }

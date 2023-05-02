@@ -180,254 +180,17 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Комментарий к неопубликованному событию 35",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const main = async () => {\r",
-									"    const api = new API(pm);\r",
-									"    const rnd = new RandomUtils();\r",
-									"\r",
-									"    try {\r",
-									"        const user = await api.addUser(rnd.getUser());\r",
-									"        pm.collectionVariables.set(\"uid\", user.id)\r",
-									"        const category = await api.addCategory(rnd.getCategory());\r",
-									"        const event = await api.addEvent(user.id, rnd.getEvent(category.id));\r",
-									"        pm.collectionVariables.set(\"eid\", event.id)\r",
-									"    } catch(err) {\r",
-									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
-									"    }\r",
-									"};\r",
-									"\r",
-									"const interval = setInterval(() => {}, 1000);\r",
-									"\r",
-									"setTimeout(async () => \r",
-									"    {\r",
-									"        try {\r",
-									"            await main();\r",
-									"        } catch (e) {\r",
-									"            console.error(e);\r",
-									"        } finally {\r",
-									"            clearInterval(interval);\r",
-									"        }\r",
-									"    },  \r",
-									"    100 \r",
-									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([409]);\r",
-									"});\r",
-									"pm.test(\"There is a comment body\", function () {\r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"});\r",
-									"pm.test(\"There is a error reason\", function () {\r",
-									"    pm.expect(pm.response).to.have.property('reason');\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"text\":\"comment for event\"}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users/:userId/events/:evenId/comments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								":userId",
-								"events",
-								":evenId",
-								"comments"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "{{uid}}"
-								},
-								{
-									"key": "evenId",
-									"value": "{{eid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Комментарий к отмененному событию 36",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const main = async () => {\r",
-									"    const api = new API(pm);\r",
-									"    const rnd = new RandomUtils();\r",
-									"\r",
-									"    try {\r",
-									"        const user = await api.addUser(rnd.getUser());\r",
-									"        pm.collectionVariables.set(\"uid\", user.id)\r",
-									"        const category = await api.addCategory(rnd.getCategory());\r",
-									"\r",
-									"        let eventBody = rnd.getEvent(category.id);\r",
-									"        eventBody['requestModeration'] = true\r",
-									"        let event = await api.addEvent(user.id, eventBody);\r",
-									"        event = await api.rejectEvent(event.id);\r",
-									"        pm.collectionVariables.set(\"eid\", event.id)\r",
-									"    } catch(err) {\r",
-									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
-									"    }\r",
-									"};\r",
-									"\r",
-									"const interval = setInterval(() => {}, 1000);\r",
-									"\r",
-									"setTimeout(async () => \r",
-									"    {\r",
-									"        try {\r",
-									"            await main();\r",
-									"        } catch (e) {\r",
-									"            console.error(e);\r",
-									"        } finally {\r",
-									"            clearInterval(interval);\r",
-									"        }\r",
-									"    },  \r",
-									"    100 \r",
-									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([409]);\r",
-									"});\r",
-									"pm.test(\"There is a comment body\", function () {\r",
-									"    pm.response.to.be.withBody;\r",
-									"    pm.response.to.be.json;\r",
-									"});\r",
-									"pm.test(\"There is a error reason\", function () {\r",
-									"    pm.expect(pm.response).to.have.property('reason');\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"text\":\"comment for event\"}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users/:userId/events/:evenId/comments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								":userId",
-								"events",
-								":evenId",
-								"comments"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "{{uid}}"
-								},
-								{
-									"key": "evenId",
-									"value": "{{eid}}"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
-			"name": "Создан комментарий к событию 37",
+			"name": "Создан комментарий 1 к событию 1",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"const main = async () => {\r",
-							"    const api = new API(pm);\r",
-							"    const rnd = new RandomUtils();\r",
-							"\r",
-							"    try {\r",
-							"        const user = await api.addUser(rnd.getUser());\r",
-							"        pm.collectionVariables.set(\"uid\", user.id)\r",
-							"        const category = await api.addCategory(rnd.getCategory());\r",
-							"\r",
-							"        let eventBody = rnd.getEvent(category.id);\r",
-							"        eventBody['requestModeration'] = true\r",
-							"        let event = await api.addEvent(user.id, eventBody);\r",
-							"        event = await api.publishEvent(event.id);\r",
-							"        pm.collectionVariables.set(\"eid\", event.id)\r",
-							"    } catch(err) {\r",
-							"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
-							"    }\r",
-							"};\r",
-							"\r",
-							"const interval = setInterval(() => {}, 1000);\r",
-							"\r",
-							"setTimeout(async () => \r",
-							"    {\r",
-							"        try {\r",
-							"            // выполняем наш скрипт\r",
-							"            await main();\r",
-							"        } catch (e) {\r",
-							"            console.error(e);\r",
-							"        } finally {\r",
-							"            clearInterval(interval);\r",
-							"        }\r",
-							"    },  \r",
-							"    100 \r",
-							");"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -451,17 +214,17 @@
 							"pm.test(\"The comment has `text` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('text');\r",
-							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 37\"').to.eql('comment for event 37');\r",
+							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 1\"').to.eql('comment for event 1');\r",
 							"});\r",
 							"pm.test(\"The comment has `authorId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 63').to.eql(63);\r",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 1').to.eql(1);\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('eventId');\r",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 37').to.eql(37);\r",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 1').to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -473,7 +236,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"text\":\"comment for event 37\"}",
+					"raw": "{\"text\":\"comment for event 1\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -497,11 +260,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "{{uid}}"
+							"value": "1"
 						},
 						{
 							"key": "evenId",
-							"value": "{{eid}}"
+							"value": "1"
 						}
 					]
 				}
@@ -509,7 +272,7 @@
 			"response": []
 		},
 		{
-			"name": "Не получен комментарий 1 к событию 36",
+			"name": "Не получен комментарий 1 к событию 2",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -558,7 +321,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "36"
+							"value": "2"
 						},
 						{
 							"key": "comId",
@@ -570,7 +333,7 @@
 			"response": []
 		},
 		{
-			"name": "Получен комментарий 1 к событию 37",
+			"name": "Получен комментарий 1 к событию 1",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -600,17 +363,17 @@
 							"pm.test(\"The comment has `text` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('text');\r",
-							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 37\"').to.eql('comment for event 37');\r",
+							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 1\"').to.eql('comment for event 1');\r",
 							"});\r",
 							"pm.test(\"The comment has `authorId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 63').to.eql(63);\r",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 1').to.eql(1);\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('eventId');\r",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 37').to.eql(37);\r",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 1').to.eql(1);\r",
 							"});\r",
 							""
 						],
@@ -637,7 +400,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "37"
+							"value": "1"
 						},
 						{
 							"key": "comId",
@@ -649,39 +412,13 @@
 			"response": []
 		},
 		{
-			"name": "Создан комментарий 2 к событию 37",
+			"name": "Создан комментарий 2 к событию 1",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"const main = async () => {\r",
-							"    const api = new API(pm);\r",
-							"    const rnd = new RandomUtils();\r",
-							"\r",
-							"    try {\r",
-							"        const user = await api.addUser(rnd.getUser());\r",
-							"        pm.collectionVariables.set(\"uid\", user.id)\r",
-							"    } catch(err) {\r",
-							"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
-							"    }\r",
-							"};\r",
-							"\r",
-							"const interval = setInterval(() => {}, 1000);\r",
-							"\r",
-							"setTimeout(async () => \r",
-							"    {\r",
-							"        try {\r",
-							"            // выполняем наш скрипт\r",
-							"            await main();\r",
-							"        } catch (e) {\r",
-							"            console.error(e);\r",
-							"        } finally {\r",
-							"            clearInterval(interval);\r",
-							"        }\r",
-							"    },  \r",
-							"    100 \r",
-							");"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -705,17 +442,17 @@
 							"pm.test(\"The comment has `text` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('text');\r",
-							"    pm.expect(jsonData.text, '\"text\" must be \"comment 2 for event 37\"').to.eql('comment 2 for event 37');\r",
+							"    pm.expect(jsonData.text, '\"text\" must be \"comment 2 for event 1\"').to.eql('comment 2 for event 1');\r",
 							"});\r",
 							"pm.test(\"The comment has `authorId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 64').to.eql(64);\r",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 2').to.eql(2);\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('eventId');\r",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 37').to.eql(37);\r",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 1').to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -727,7 +464,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"text\":\"comment 2 for event 37\"}",
+					"raw": "{\"text\":\"comment 2 for event 1\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -751,11 +488,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "{{uid}}"
+							"value": "2"
 						},
 						{
 							"key": "evenId",
-							"value": "37"
+							"value": "1"
 						}
 					]
 				}
@@ -763,46 +500,13 @@
 			"response": []
 		},
 		{
-			"name": "Создан комментарий 3 к событию 38",
+			"name": "Создан комментарий 3 к событию 2",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"const main = async () => {\r",
-							"    const api = new API(pm);\r",
-							"    const rnd = new RandomUtils();\r",
-							"\r",
-							"    try {\r",
-							"        const user = await api.addUser(rnd.getUser());\r",
-							"        pm.collectionVariables.set(\"uid\", user.id)\r",
-							"        const category = await api.addCategory(rnd.getCategory());\r",
-							"\r",
-							"        let eventBody = rnd.getEvent(category.id);\r",
-							"        eventBody['requestModeration'] = true\r",
-							"        let event = await api.addEvent(user.id, eventBody);\r",
-							"        event = await api.publishEvent(event.id);\r",
-							"        pm.collectionVariables.set(\"eid\", event.id)\r",
-							"    } catch(err) {\r",
-							"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
-							"    }\r",
-							"};\r",
-							"\r",
-							"const interval = setInterval(() => {}, 1000);\r",
-							"\r",
-							"setTimeout(async () => \r",
-							"    {\r",
-							"        try {\r",
-							"            // выполняем наш скрипт\r",
-							"            await main();\r",
-							"        } catch (e) {\r",
-							"            console.error(e);\r",
-							"        } finally {\r",
-							"            clearInterval(interval);\r",
-							"        }\r",
-							"    },  \r",
-							"    100 \r",
-							");"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -826,17 +530,17 @@
 							"pm.test(\"The comment has `text` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('text');\r",
-							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 38\"').to.eql('comment 3 for event 38');\r",
+							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 2\"').to.eql('comment 3 for event 2');\r",
 							"});\r",
 							"pm.test(\"The comment has `authorId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 65').to.eql(65);\r",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 3').to.eql(3);\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('eventId');\r",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 38').to.eql(38);\r",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 2').to.eql(2);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -848,7 +552,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"text\":\"comment 3 for event 38\"}",
+					"raw": "{\"text\":\"comment 3 for event 2\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -872,11 +576,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "{{uid}}"
+							"value": "3"
 						},
 						{
 							"key": "evenId",
-							"value": "{{eid}}"
+							"value": "2"
 						}
 					]
 				}
@@ -884,7 +588,7 @@
 			"response": []
 		},
 		{
-			"name": "Получен комментарий 3 к событию 38",
+			"name": "Получен комментарий 3 к событию 2",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -914,17 +618,17 @@
 							"pm.test(\"The comment has `text` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('text');\r",
-							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 38\"').to.eql('comment 3 for event 38');\r",
+							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 2\"').to.eql('comment 3 for event 2');\r",
 							"});\r",
 							"pm.test(\"The comment has `authorId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 65').to.eql(65);\r",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 3').to.eql(3);\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData).to.have.property('eventId');\r",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 38').to.eql(38);\r",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 2').to.eql(2);\r",
 							"});\r",
 							""
 						],
@@ -951,7 +655,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "38"
+							"value": "2"
 						},
 						{
 							"key": "comId",
@@ -963,7 +667,7 @@
 			"response": []
 		},
 		{
-			"name": "Получены все комментарии события 37",
+			"name": "Получены все комментарии события 1",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1027,7 +731,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "37"
+							"value": "1"
 						}
 					]
 				}
@@ -1035,7 +739,7 @@
 			"response": []
 		},
 		{
-			"name": "Получены все комментарии события 38",
+			"name": "Получены все комментарии события 2",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1097,7 +801,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "38"
+							"value": "2"
 						}
 					]
 				}
@@ -1105,7 +809,7 @@
 			"response": []
 		},
 		{
-			"name": "Не обновлен комментарий 2 события 38",
+			"name": "Не обновлен комментарий 2 события 2",
 			"event": [
 				{
 					"listen": "test",
@@ -1154,11 +858,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "64"
+							"value": "2"
 						},
 						{
 							"key": "eventId",
-							"value": "38"
+							"value": "2"
 						},
 						{
 							"key": "comId",
@@ -1170,7 +874,7 @@
 			"response": []
 		},
 		{
-			"name": "Не удален комментарий 3 события 37",
+			"name": "Не удален комментарий 3 события 1",
 			"event": [
 				{
 					"listen": "test",
@@ -1210,11 +914,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "65"
+							"value": "3"
 						},
 						{
 							"key": "eventId",
-							"value": "37"
+							"value": "1"
 						},
 						{
 							"key": "comId",
@@ -1226,7 +930,7 @@
 			"response": []
 		},
 		{
-			"name": "Обновлен коментарий 2 события 37",
+			"name": "Обновлен коментарий 2 события 1",
 			"event": [
 				{
 					"listen": "test",
@@ -1252,12 +956,12 @@
 							"pm.test(\"The comment has `authorId` field\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData).to.have.property('authorId');",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 64').to.eql(64);",
+							"    pm.expect(jsonData.authorId, '\"authorId\" must be 2').to.eql(2);",
 							"});",
 							"pm.test(\"The comment has `eventId` field\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData).to.have.property('eventId');",
-							"    pm.expect(jsonData.eventId, '\"eventId\" must be 37').to.eql(37);",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 1').to.eql(1);",
 							"});",
 							""
 						],
@@ -1293,11 +997,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "64"
+							"value": "2"
 						},
 						{
 							"key": "eventId",
-							"value": "37"
+							"value": "1"
 						},
 						{
 							"key": "comId",
@@ -1309,7 +1013,7 @@
 			"response": []
 		},
 		{
-			"name": "Удален комментарий 2 события 37",
+			"name": "Удален комментарий 2 события 1",
 			"event": [
 				{
 					"listen": "test",
@@ -1342,11 +1046,11 @@
 					"variable": [
 						{
 							"key": "userId",
-							"value": "64"
+							"value": "2"
 						},
 						{
 							"key": "eventId",
-							"value": "37"
+							"value": "1"
 						},
 						{
 							"key": "comId",
@@ -1358,7 +1062,7 @@
 			"response": []
 		},
 		{
-			"name": "Получены все комментарии события 37",
+			"name": "Получены все комментарии события 1",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1420,7 +1124,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "37"
+							"value": "1"
 						}
 					]
 				}
