@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.comments.CommentRequestDto;
-import ru.practicum.dto.comments.CommentResponseDto;
 import ru.practicum.dto.event.*;
 import ru.practicum.dto.request.ParticipationRequestDto;
 import ru.practicum.services.privareServices.PrivateEventsService;
@@ -70,32 +68,5 @@ public class PrivateEventsController {
         log.info("Получен запрос PATCH /users/{}/events/{eventId}/requests" +
                 " на обновление статуса события id = {}: {}", userId, eventId, request);
         return new ResponseEntity<>(service.updateRequestStatus(userId, eventId, request), HttpStatus.OK);
-    }
-
-    @PostMapping("/{eventId}/comments")
-    public ResponseEntity<CommentResponseDto> addComment(@PathVariable Long userId,
-                                                         @PathVariable Long eventId,
-                                                         @RequestBody @Valid CommentRequestDto comment) {
-        log.info("Получен запрос POST /users/{}/events/{}/comments c новым комментарием: {}", userId, eventId, comment);
-        return new ResponseEntity<>(service.addComment(userId, eventId, comment), HttpStatus.CREATED);
-    }
-
-    @PatchMapping("/{eventId}/comments/{comId}")
-    public ResponseEntity<CommentResponseDto> updateCommentById(@PathVariable Long userId,
-                                                                @PathVariable Long eventId,
-                                                                @PathVariable Long comId,
-                                                                @RequestBody @Valid CommentRequestDto comment) {
-        log.info("Получен запрос PATCH /users/{}/events/{}/comments" +
-                " на обновление комментария id = {}: {}", userId, eventId, comId, comment);
-        return new ResponseEntity<>(service.updateComment(userId, eventId, comId, comment), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{eventId}/comments/{comId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCommentById(@PathVariable Long userId,
-                                  @PathVariable Long eventId,
-                                  @PathVariable Long comId) {
-        log.info("Получен запрос DELETE /users/{}/events/{}/comments/{} на удаление", userId, eventId, comId);
-        service.deleteComment(userId, eventId, comId);
     }
 }

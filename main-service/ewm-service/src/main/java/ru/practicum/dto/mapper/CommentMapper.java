@@ -3,6 +3,7 @@ package ru.practicum.dto.mapper;
 import lombok.experimental.UtilityClass;
 import ru.practicum.dto.comments.CommentRequestDto;
 import ru.practicum.dto.comments.CommentResponseDto;
+import ru.practicum.dto.user.UserMinDto;
 import ru.practicum.model.Comment;
 import ru.practicum.model.Event;
 import ru.practicum.model.User;
@@ -28,7 +29,7 @@ public final class CommentMapper {
         CommentResponseDto commentDto = new CommentResponseDto();
 
         commentDto.setId(comment.getId());
-        commentDto.setAuthorId(comment.getAuthor().getId());
+        commentDto.setAuthor(new UserMinDto(comment.getAuthor().getId(),comment.getAuthor().getName()));
         commentDto.setEventId(comment.getEvent().getId());
         commentDto.setText(comment.getText());
 

@@ -45,16 +45,16 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments",
+							"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"comments",
 								"users",
 								":userId",
 								"events",
-								":eventId",
-								"comments"
+								":eventId"
 							],
 							"variable": [
 								{
@@ -96,16 +96,16 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments",
+							"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"comments",
 								"users",
 								":userId",
 								"events",
-								":eventId",
-								"comments"
+								":eventId"
 							],
 							"variable": [
 								{
@@ -156,16 +156,16 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments",
+							"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"comments",
 								"users",
 								":userId",
 								"events",
-								":eventId",
-								"comments"
+								":eventId"
 							],
 							"variable": [
 								{
@@ -216,10 +216,11 @@
 							"    pm.expect(jsonData).to.have.property('text');\r",
 							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 1\"').to.eql('comment for event 1');\r",
 							"});\r",
-							"pm.test(\"The comment has `authorId` field\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 1').to.eql(1);\r",
+							"pm.test(\"The comment has `author` object\", function () {\r",
+							"    var jsonData = pm.response.json().author;\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"    pm.expect(jsonData.id, '\"id\" must be 1').to.eql(1);\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
@@ -244,18 +245,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/events/:evenId/comments",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"users",
 						":userId",
 						"events",
-						":evenId",
-						"comments"
+						":eventId"
 					],
 					"variable": [
 						{
@@ -263,7 +262,7 @@
 							"value": "1"
 						},
 						{
-							"key": "evenId",
+							"key": "eventId",
 							"value": "1"
 						}
 					]
@@ -306,26 +305,24 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments/:comId",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/:comId/events/:id",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
-						"events",
-						":id",
 						"comments",
-						":comId"
+						":comId",
+						"events",
+						":id"
 					],
 					"variable": [
 						{
-							"key": "id",
-							"value": "2"
-						},
-						{
 							"key": "comId",
 							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "2"
 						}
 					]
 				}
@@ -365,10 +362,11 @@
 							"    pm.expect(jsonData).to.have.property('text');\r",
 							"    pm.expect(jsonData.text, '\"text\" must be \"comment for event 1\"').to.eql('comment for event 1');\r",
 							"});\r",
-							"pm.test(\"The comment has `authorId` field\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 1').to.eql(1);\r",
+							"pm.test(\"The comment has `author` object\", function () {\r",
+							"    var jsonData = pm.response.json().author;\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"    pm.expect(jsonData.id, '\"id\" must be 1').to.eql(1);\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
@@ -385,25 +383,23 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments/:comId",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/:comId/events/:id",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
-						"events",
-						":id",
 						"comments",
-						":comId"
+						":comId",
+						"events",
+						":id"
 					],
 					"variable": [
 						{
-							"key": "id",
+							"key": "comId",
 							"value": "1"
 						},
 						{
-							"key": "comId",
+							"key": "id",
 							"value": "1"
 						}
 					]
@@ -444,10 +440,11 @@
 							"    pm.expect(jsonData).to.have.property('text');\r",
 							"    pm.expect(jsonData.text, '\"text\" must be \"comment 2 for event 1\"').to.eql('comment 2 for event 1');\r",
 							"});\r",
-							"pm.test(\"The comment has `authorId` field\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 2').to.eql(2);\r",
+							"pm.test(\"The comment has `author` object\", function () {\r",
+							"    var jsonData = pm.response.json().author;\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"    pm.expect(jsonData.id, '\"id\" must be 2').to.eql(2);\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
@@ -472,18 +469,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/events/:evenId/comments",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"users",
 						":userId",
 						"events",
-						":evenId",
-						"comments"
+						":eventId"
 					],
 					"variable": [
 						{
@@ -491,7 +486,7 @@
 							"value": "2"
 						},
 						{
-							"key": "evenId",
+							"key": "eventId",
 							"value": "1"
 						}
 					]
@@ -532,10 +527,11 @@
 							"    pm.expect(jsonData).to.have.property('text');\r",
 							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 2\"').to.eql('comment 3 for event 2');\r",
 							"});\r",
-							"pm.test(\"The comment has `authorId` field\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 3').to.eql(3);\r",
+							"pm.test(\"The comment has `author` object\", function () {\r",
+							"    var jsonData = pm.response.json().author;\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"    pm.expect(jsonData.id, '\"id\" must be 3').to.eql(3);\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
@@ -560,18 +556,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/:userId/events/:evenId/comments",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/users/:userId/events/:eventId",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"users",
 						":userId",
 						"events",
-						":evenId",
-						"comments"
+						":eventId"
 					],
 					"variable": [
 						{
@@ -579,7 +573,7 @@
 							"value": "3"
 						},
 						{
-							"key": "evenId",
+							"key": "eventId",
 							"value": "2"
 						}
 					]
@@ -620,10 +614,11 @@
 							"    pm.expect(jsonData).to.have.property('text');\r",
 							"    pm.expect(jsonData.text, '\"text\" must be \"comment 3 for event 2\"').to.eql('comment 3 for event 2');\r",
 							"});\r",
-							"pm.test(\"The comment has `authorId` field\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData).to.have.property('authorId');\r",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 3').to.eql(3);\r",
+							"pm.test(\"The comment has `author` object\", function () {\r",
+							"    var jsonData = pm.response.json().author;\r",
+							"    pm.expect(jsonData).to.have.property('id');\r",
+							"    pm.expect(jsonData.id, '\"id\" must be 3').to.eql(3);\r",
+							"    pm.expect(jsonData).to.have.property('name');\r",
 							"});\r",
 							"pm.test(\"The comment has `eventId` field\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
@@ -640,26 +635,24 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments/:comId",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/:comId/events/:id",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
-						"events",
-						":id",
 						"comments",
-						":comId"
+						":comId",
+						"events",
+						":id"
 					],
 					"variable": [
 						{
-							"key": "id",
-							"value": "2"
-						},
-						{
 							"key": "comId",
 							"value": "3"
+						},
+						{
+							"key": "id",
+							"value": "2"
 						}
 					]
 				}
@@ -707,16 +700,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments?from=0&size=1000",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/events/:id?from=0&size=1000",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"events",
-						":id",
-						"comments"
+						":id"
 					],
 					"query": [
 						{
@@ -777,16 +768,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments?from=0&size=1000",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/events/:id?from=0&size=1000",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"events",
-						":id",
-						"comments"
+						":id"
 					],
 					"query": [
 						{
@@ -843,29 +832,29 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments/:comId",
+					"raw": "{{baseUrl}}/comments/:comId/users/:userId/events/:eventId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"comments",
+						":comId",
 						"users",
 						":userId",
 						"events",
-						":eventId",
-						"comments",
-						":comId"
+						":eventId"
 					],
 					"variable": [
+						{
+							"key": "comId",
+							"value": "2"
+						},
 						{
 							"key": "userId",
 							"value": "2"
 						},
 						{
 							"key": "eventId",
-							"value": "2"
-						},
-						{
-							"key": "comId",
 							"value": "2"
 						}
 					]
@@ -899,19 +888,23 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments/:comId",
+					"raw": "{{baseUrl}}/comments/:comId/users/:userId/events/:eventId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"comments",
+						":comId",
 						"users",
 						":userId",
 						"events",
-						":eventId",
-						"comments",
-						":comId"
+						":eventId"
 					],
 					"variable": [
+						{
+							"key": "comId",
+							"value": "3"
+						},
 						{
 							"key": "userId",
 							"value": "3"
@@ -919,10 +912,6 @@
 						{
 							"key": "eventId",
 							"value": "1"
-						},
-						{
-							"key": "comId",
-							"value": "3"
 						}
 					]
 				}
@@ -930,7 +919,7 @@
 			"response": []
 		},
 		{
-			"name": "Обновлен коментарий 2 события 1",
+			"name": "Обновлен коментарий 2 события 1 Copy",
 			"event": [
 				{
 					"listen": "test",
@@ -953,10 +942,11 @@
 							"    pm.expect(jsonData).to.have.property('text');",
 							"    pm.expect(jsonData.text, '\"text\" must be \"Final!\"').to.eql('Final!');",
 							"});",
-							"pm.test(\"The comment has `authorId` field\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('authorId');",
-							"    pm.expect(jsonData.authorId, '\"authorId\" must be 2').to.eql(2);",
+							"pm.test(\"The comment has `author` object\", function () {",
+							"    var jsonData = pm.response.json().author;",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"    pm.expect(jsonData.id, '\"id\" must be 2').to.eql(2);",
+							"    pm.expect(jsonData).to.have.property('name');",
 							"});",
 							"pm.test(\"The comment has `eventId` field\", function () {",
 							"    var jsonData = pm.response.json();",
@@ -982,19 +972,23 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments/:comId",
+					"raw": "{{baseUrl}}/comments/:comId/users/:userId/events/:eventId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"comments",
+						":comId",
 						"users",
 						":userId",
 						"events",
-						":eventId",
-						"comments",
-						":comId"
+						":eventId"
 					],
 					"variable": [
+						{
+							"key": "comId",
+							"value": "2"
+						},
 						{
 							"key": "userId",
 							"value": "2"
@@ -1002,10 +996,6 @@
 						{
 							"key": "eventId",
 							"value": "1"
-						},
-						{
-							"key": "comId",
-							"value": "2"
 						}
 					]
 				}
@@ -1031,19 +1021,23 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/users/:userId/events/:eventId/comments/:comId",
+					"raw": "{{baseUrl}}/comments/:comId/users/:userId/events/:eventId",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"comments",
+						":comId",
 						"users",
 						":userId",
 						"events",
-						":eventId",
-						"comments",
-						":comId"
+						":eventId"
 					],
 					"variable": [
+						{
+							"key": "comId",
+							"value": "2"
+						},
 						{
 							"key": "userId",
 							"value": "2"
@@ -1051,10 +1045,6 @@
 						{
 							"key": "eventId",
 							"value": "1"
-						},
-						{
-							"key": "comId",
-							"value": "2"
 						}
 					]
 				}
@@ -1100,16 +1090,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/events/:id/comments?from=0&size=1000",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/comments/events/:id?from=0&size=1000",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
+						"comments",
 						"events",
-						":id",
-						"comments"
+						":id"
 					],
 					"query": [
 						{
@@ -1125,6 +1113,213 @@
 						{
 							"key": "id",
 							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin oбновлен коментарий 3 события 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200]);",
+							"});",
+							"pm.test(\"There is a comment body\", function () {",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(\"The comment has `id` field\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"    pm.expect(jsonData.id, '\"id\" must be 3').to.eql(3);",
+							"});",
+							"pm.test(\"The comment has `text` field\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('text');",
+							"    pm.expect(jsonData.text, '\"text\" must be \"Admin!\"').to.eql('Admin!');",
+							"});",
+							"pm.test(\"The comment has `author` object\", function () {",
+							"    var jsonData = pm.response.json().author;",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"    pm.expect(jsonData.id, '\"id\" must be 3').to.eql(3);",
+							"    pm.expect(jsonData).to.have.property('name');",
+							"});",
+							"pm.test(\"The comment has `eventId` field\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('eventId');",
+							"    pm.expect(jsonData.eventId, '\"eventId\" must be 2').to.eql(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"Admin!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/admin/comments/:comId/users/:userId/events/:eventId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						":comId",
+						"users",
+						":userId",
+						"events",
+						":eventId"
+					],
+					"variable": [
+						{
+							"key": "comId",
+							"value": "3"
+						},
+						{
+							"key": "userId",
+							"value": "3"
+						},
+						{
+							"key": "eventId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin удален коментарий 3 события 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"Admin!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/admin/comments/:comId/users/:userId/events/:eventId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						":comId",
+						"users",
+						":userId",
+						"events",
+						":eventId"
+					],
+					"variable": [
+						{
+							"key": "comId",
+							"value": "3"
+						},
+						{
+							"key": "userId",
+							"value": "3"
+						},
+						{
+							"key": "eventId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получены все комментарии события 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Comment list test\", function () {\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length, 'The length of the list of comments should be equal to 0').to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/comments/events/:id?from=0&size=1000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"comments",
+						"events",
+						":id"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "1000"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2"
 						}
 					]
 				}
