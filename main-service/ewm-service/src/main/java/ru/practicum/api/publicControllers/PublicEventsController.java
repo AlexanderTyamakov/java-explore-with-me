@@ -5,34 +5,64 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.practicum.dto.Category.CategoryDto;
-import ru.practicum.services.publicServices.PublicCategoriesService;
+import ru.practicum.dto.event.EventFullDto;
+import ru.practicum.dto.event.EventShortDto;
+import ru.practicum.dto.request.RequestParamPublicForEventDto;
+import ru.practicum.services.publicServices.PublicEventsService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/categories")
+@RequestMapping("/events")
+@Validated
 public class PublicEventsController {
 
-    public final PublicCategoriesService categoriesService;
+    public final PublicEventsService eventsService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAll(@RequestParam(defaultValue = "0") int from,
-                                                    @RequestParam(defaultValue = "10") int size) {
-        log.info("Получен запрос GET /categories c параметрами: from = {}, size = {}", from, size);
-        return new ResponseEntity<>(categoriesService.getAll(from, size), HttpStatus.OK);
+    public ResponseEntity<Set<EventShortDto>> getAll(@RequestParam(required = false) String text,
+                                                     @RequestParam(required = false) List<Long> categories,
+                                                     @RequestParam(required = false) Boolean paid,
+                                                     @RequestParam(required = false) LocalDateTime rangeStart,
+                                                     @RequestParam(required = false) LocalDateTime rangeEnd,
+                                                     @RequestParam(defaultValue = "false") Boolean onlyAvailable,
+                                                     @RequestParam(defaultValue = "EVENT_DATE") String sort,
+                                                     @RequestParam(defaultValue = "0") @PositiveOrZero int from,
+                                                     @RequestParam(defaultValue = "10") @Positive int size,
+                                                     HttpServletRequest request) {
+        log.info("Получен запрос GET /events c параметрами: text = {}, categories = {}, paid = {}, rangeStart = {}, " +
+                        "rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}", text, categories, paid,
+                rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+        RequestParamPublicForEventDto param = RequestParamPublicForEventDto.builder()
+                .text(text)
+                .categories(categories)
+                .paid(paid)
+                .rangeStart(rangeStart)
+                .rangeEnd(rangeEnd)
+                .onlyAvailable(onlyAvailable)
+                .sort(sort)
+                .from(from)
+                .size(size)
+                .request(request)
+                .build();
+        return new ResponseEntity<>(eventsService.getAll(param), HttpStatus.OK);
     }
 
-    @GetMapping("/{catId}")
-    public ResponseEntity<CategoryDto> get(@PathVariable Long catId) {
-        log.info("Получен запрос GET /categories/{}", catId);
-        return new ResponseEntity<>(categoriesService.get(catId), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<EventFullDto> get(@PathVariable Long id, HttpServletRequest request) {
+        log.info("Получен запрос GET /events/{}", id);
+        return new ResponseEntity<>(eventsService.get(id, request), HttpStatus.OK);
     }
-
 }

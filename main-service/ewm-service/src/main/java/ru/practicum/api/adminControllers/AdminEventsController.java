@@ -14,7 +14,6 @@ import ru.practicum.dto.request.RequestParamAdminForEventDto;
 import ru.practicum.enums.State;
 import ru.practicum.services.adminServices.AdminEventsService;
 
-
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
@@ -64,4 +63,6 @@ public class AdminEventsController {
         log.info("Получен запрос PATCH /admin/events/{} на изменение события.", eventId);
         return new ResponseEntity<>(service.update(eventId, updateEvent), HttpStatus.OK);
     }
+
+
 }

@@ -1,4 +1,4 @@
-package ru.practicum.dto.Category;
+package ru.practicum.dto.category;
 
 import lombok.*;
 

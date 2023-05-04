@@ -1,8 +1,9 @@
 package ru.practicum.dto.event;
 
 import lombok.*;
+import ru.practicum.enums.Status;
+import ru.practicum.utils.ValidStatus;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -15,8 +16,9 @@ public class EventRequestStatusUpdateRequestDto {
     @NotNull
     private List<Long> requestIds;
 
-    @NotBlank
-    private String status;
+    @NotNull
+    @ValidStatus
+    private Status status;
 
     @Override
     public String toString() {

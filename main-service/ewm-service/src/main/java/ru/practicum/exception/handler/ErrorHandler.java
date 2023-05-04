@@ -57,7 +57,7 @@ public class ErrorHandler {
         return new ApiError(
                 HttpStatus.BAD_REQUEST.toString(),
                 "Incorrectly made request.",
-                String.format("Field: %s. Error: must not be blank. Value: %s", field, e.getFieldValue(field)));
+                String.format("Field: %s. Error: must be valid value. Value: %s", field, e.getFieldValue(field)));
     }
 
     @ExceptionHandler

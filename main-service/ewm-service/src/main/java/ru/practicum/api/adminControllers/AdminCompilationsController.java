@@ -6,11 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.Compilation.CompilationDto;
-import ru.practicum.dto.Compilation.NewCompilationDto;
-import ru.practicum.dto.Compilation.UpdateCompilationRequestDto;
+import ru.practicum.dto.compilation.CompilationDto;
+import ru.practicum.dto.compilation.NewCompilationDto;
+import ru.practicum.dto.compilation.UpdateCompilationRequestDto;
 import ru.practicum.services.adminServices.AdminCompilationService;
-
 
 import javax.validation.Valid;
 
